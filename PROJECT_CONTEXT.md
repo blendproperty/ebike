@@ -108,3 +108,11 @@
 - Operations: Sent a request to Vodacom's IoT team for one pilot SIM, the exact APN and authentication settings for its plan, outbound connectivity confirmation, and activation instructions. Copied the project stakeholder and verified the message in Outlook Sent Items. Provider response and SIM supply are pending.
 - Implementation and testing: No application changes or device tests for this outreach. APN and bike integration remain pending.
 - Commit and push: Context record only. No merge, deployment, configuration change or live production verification for this outreach.
+
+## 2026-11-26 — Fitcoo MQTT telemetry pilot
+
+- Implementation: Added read-only parsing for Fitcoo heartbeat, GPS and vehicle parameter reports and a separate simulator publisher restricted to the supplier telemetry topic on the private broker. The dashboard persists and labels the registered test fixture as simulated. Directionless GPS remains unconfirmed. The supplier PDF stays outside the public repository.
+- Testing: Local broker regression and Fitcoo MQTT-to-dashboard checks passed, covering valid reports, invalid battery, unregistered ID, subscription denial and Settings preservation. VPS evidence follows.
+- Commit and push: Recorded in Git history. Merge: none.
+- Deployment and configuration: Target is the existing private VPS broker and dashboard backend. External MQTT ingress and real-device credentials are pending.
+- Live production verification: No real scooter, SIM/APN, supplier firmware or acceptance verification. Vodacom response, TLS compatibility, physical test, UAT and approval remain pending.

@@ -1,15 +1,27 @@
 'use strict';
 const http=require('http'),fs=require('fs'),path=require('path'),mqtt=require('mqtt');
+const { fixtureId, parseReport } = require('./fitcoo');
 const config=JSON.parse(fs.readFileSync(process.env.EBIKE_BROKER_CONFIG,'utf8'));
 const file=process.env.EBIKE_STATE_PATH;if(!file)throw Error('EBIKE_STATE_PATH required');
 let state={bikes:{},settings:{apn:'',provider:''},messages:0,lastMessage:null};
 if(fs.existsSync(file))state=JSON.parse(fs.readFileSync(file,'utf8'));
 function save(){const tmp=file+'.tmp';fs.writeFileSync(tmp,JSON.stringify(state),{mode:0o600});fs.renameSync(tmp,file)}
 const client=mqtt.connect(process.env.EBIKE_MQTT_URL||'mqtt://127.0.0.1:3184',{username:config.username,password:config.password,clientId:'ebike-dashboard-service'});
-client.on('connect',()=>client.subscribe('test/ebike/+/telemetry',{qos:1}));
+client.on('connect',()=>client.subscribe(['test/ebike/+/telemetry', 'bike'],{qos:1}));
 client.on('error',e=>console.error('MQTT connection:',e.message));
 client.on('message',(topic,payload)=>{
- try {if(payload.length>4096)return;const id=topic.split('/')[2];const d=JSON.parse(payload.toString());
+ try {
+ if (topic === 'bike') {
+  const bike = parseReport(payload, state.bikes[fixtureId]);
+  if (!bike) return;
+  const received = new Date().toISOString();
+  state.bikes[fixtureId] = { ...bike, updatedAt: received };
+  state.messages++;
+  state.lastMessage = received;
+  save();
+  return;
+ }
+ if(payload.length>4096)return;const id=topic.split('/')[2];const d=JSON.parse(payload.toString());
  if(!/^[A-Za-z0-9_-]{1,32}$/.test(id)||d.id!==id||typeof d.battery!=='number'||d.battery<0||d.battery>100||!['Available','On ride','Needs charging'].includes(d.status)||typeof d.name!=='string'||d.name.length>40||typeof d.location!=='string'||d.location.length>80||d.simulated!==true)return;
  state.bikes[id]={id,name:d.name,battery:d.battery,status:d.status,location:d.location,simulated:true,updatedAt:new Date().toISOString()};state.messages++;state.lastMessage=new Date().toISOString();save();
  }catch(e){console.error('Rejected telemetry:',e.message)}

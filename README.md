@@ -37,3 +37,9 @@ From the VPS deployment account, run `bash ~/ebike-test/repo/deploy/https/activa
 The public dashboard and Settings pages are built with Next.js and exported into the HTTPS Docker image. The same Traefik router handles TLS, and the same staff login protects the pages, assets and API. Nginx forwards /api/ to the existing VPS service over its Unix socket. That service owns persisted Settings and the MQTT subscription.
 
 Run `npm ci` and `npm run build` to build the dashboard. The VPS activation script rebuilds the web image from the checkout. For a staged rollout, set EBIKE_WEB_TAG to the release commit, build the edge service first and verify the image, then use Compose up with --no-build. The legacy HTML remains available on the loopback backend for rollback.
+
+### Fitcoo MQTT pilot verification
+
+The VPS test broker accepts simulated Fitcoo reports on the supplier's `bike` topic using a dedicated publish-only account. In the private broker configuration, set `fitcooFixture` to an object with its own `username` and randomly generated `password` of at least 24 characters. Keep the file outside Git and readable only by the deployment account. Restart the broker and fleet service using the existing PM2 home. Run `deploy/test-fitcoo.js` with the existing broker configuration and local MQTT URL. It publishes the registered synthetic fixture and verifies dashboard readback.
+
+The adapter accepts heartbeat (27), GPS (19) and vehicle parameter (16) reports for the fixture. The dashboard displays it as simulated. GPS reports without an explicit direction are retained as raw reports and shown as unconfirmed. The broker remains on loopback. Confirm the shipping firmware, MQTT transport security, per-device provisioning, GPS encoding and Vodacom APN before testing a physical scooter. Device commands and firmware changes are outside this stage.
