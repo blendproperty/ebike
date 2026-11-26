@@ -15,3 +15,7 @@ These instructions are a scaffold. Confirm port availability, permissions, firew
 ## VPS Node service
 
 `deploy/broker.js` is an independent MQTT 3.1.1 test broker with password authentication, access restricted to `test/ebike/`, and a loopback-only listener (default 1884). Supply `EBIKE_BROKER_CONFIG` as the path to a private JSON file containing `username` and a random `password` of at least 24 characters. `deploy/test-broker.js` checks an authenticated roundtrip, wrong-password rejection and unrelated topic denial. The dashboard remains a separate static-data demo and does not use this broker. Neither is a real-bike integration; no public endpoint, TLS or APN is configured.
+
+## Integrated VPS test dashboard
+
+`fleet-server.js` connects to the separately running authenticated test broker and subscribes to `test/ebike/+/telemetry`. It validates synthetic payloads and saves the last simulated status and planning-only SIM settings to `EBIKE_STATE_PATH`. It requires `EBIKE_BROKER_CONFIG`, optional `EBIKE_MQTT_URL` and `DASHBOARD_PORT`; it binds HTTP to loopback. `deploy/simulate.js` publishes four explicitly simulated bikes. The JSON format is a test contract, not Alan's device protocol. No locking, real-device provisioning, historical data, or operational map is implemented. Access through SSH only.

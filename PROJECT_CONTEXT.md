@@ -41,3 +41,9 @@
 - Commit and push: Application commit `696733e` pushed to `blendproperty/ebike` main; this context update follows. Merge: none.
 - Deployment and configuration: On the existing VPS as `brett-admin`, isolated PM2 home `~/ebike-test/.pm2`; `ebike-test-broker` listens only on 127.0.0.1:3184 with a generated credential in `~/ebike-test/private/broker.json` (restricted permissions); `ebike-demo-dashboard` listens on 127.0.0.1:3185 with its independent simulator. Processes online at verification. SSH tunnel maps workstation port 13185 to dashboard. No public MQTT or dashboard endpoint, DNS, TLS or external supplier access configured. Sudo and Docker daemon unavailable to this account. PM2 process list saved, but boot persistence is not established (`Linger=no`); services may require manual restart after reboot.
 - Live production verification: None. VPS synthetic test only; not a production release or real-bike acceptance. Supplier protocol, hardware and SIM/APN configuration, public secure connection, telemetry persistence, device authorization, external integration, uptime/reboot recovery, UAT and business approval remain open.
+
+## 2026-11-26 — Connected telemetry and SIM settings
+
+- Implementation: Added loopback-only dashboard service subscribing to the authenticated test broker, validating and persisting explicitly simulated test telemetry; added saved SIM provider/APN planning fields. Saving a setting does not provision a SIM. Device integration, commands and operational map are not implemented.
+- Testing: Local synthetic publish through broker was observed in dashboard API and planning settings saved. Deployment and further VPS verification pending.
+- Commit/push: see Git history. Merge: none. Deployment: pending. Production/real-device verification: none. Supplier protocol, APN selection, external TLS/authorization, real-device connectivity, operations, UAT, reboot recovery and approval gates remain open.
