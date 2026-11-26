@@ -47,3 +47,11 @@
 - Implementation: Added loopback-only dashboard service subscribing to the authenticated test broker, validating and persisting explicitly simulated test telemetry; added saved SIM provider/APN planning fields. Saving a setting does not provision a SIM. Device integration, commands and operational map are not implemented.
 - Testing: Local synthetic publish through broker was observed in dashboard API and planning settings saved. Deployment and further VPS verification pending.
 - Commit/push: see Git history. Merge: none. Deployment: pending. Production/real-device verification: none. Supplier protocol, APN selection, external TLS/authorization, real-device connectivity, operations, UAT, reboot recovery and approval gates remain open.
+
+## 2026-11-26 — VPS integrated test dashboard
+
+- Implementation: VPS dashboard now subscribes to its authenticated MQTT broker and saves validated synthetic last-known telemetry and SIM provider/APN planning settings. Dashboard map is illustrative and the APN fields do not configure a bike or SIM. Only explicitly simulated test payloads are accepted; real supplier integration and controls are absent.
+- Testing: On VPS, four synthetic bike messages published via MQTT appeared in the API and browser; test APN/provider settings and telemetry survived a dashboard process restart, then test settings were cleared. Wrong MQTT credentials and unrelated topic subscriptions were rejected in the earlier VPS check. Browser observed connected state and four simulated records.
+- Commit and push: Application `bfab1e3` pushed to `main`; this evidence follows in a context-only commit. Merge: none.
+- Deployment and configuration: Running as isolated PM2 processes on existing VPS, broker at loopback 3184 and connected dashboard at loopback 3185; workstation SSH tunnel 13185. `@reboot` user crontab invokes PM2 resurrect from the dedicated PM2 home; configuration installed but actual VPS reboot not tested. Private credentials and state stay outside repository. No public endpoint or TLS.
+- Live production verification: None. All bike data is simulated. Real supplier MQTT version, payloads, hardware, SIM/APN selection, public secure ingress, per-device access, device telemetry storage, backup/recovery, staff UAT and approval remain open. System is not ready to give Alan a public server address.
