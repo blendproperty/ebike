@@ -55,3 +55,11 @@
 - Commit and push: Application `bfab1e3` pushed to `main`; this evidence follows in a context-only commit. Merge: none.
 - Deployment and configuration: Running as isolated PM2 processes on existing VPS, broker at loopback 3184 and connected dashboard at loopback 3185; workstation SSH tunnel 13185. `@reboot` user crontab invokes PM2 resurrect from the dedicated PM2 home; configuration installed but actual VPS reboot not tested. Private credentials and state stay outside repository. No public endpoint or TLS.
 - Live production verification: None. All bike data is simulated. Real supplier MQTT version, payloads, hardware, SIM/APN selection, public secure ingress, per-device access, device telemetry storage, backup/recovery, staff UAT and approval remain open. System is not ready to give Alan a public server address.
+
+## 2026-11-26 — Settings navigation and web access preparation
+
+- Implementation: Added a visible Settings link and dedicated page with persisted SIM provider and APN, independent of broker status. Added a configurable dashboard origin for future HTTPS routing. Supplier integration remains pending.
+- Testing: Node syntax and Git diff checks passed before VPS promotion. Runtime evidence follows.
+- Commit/push: Recorded in Git history. Merge: none.
+- Deployment/configuration: Existing private VPS service is the promotion target. Public HTTPS still requires the approved hostname, staff authentication and authorized edge configuration.
+- Live production verification: Pending. No real bikes, SIM/APN provisioning, secure supplier ingress, staff UAT or approval.

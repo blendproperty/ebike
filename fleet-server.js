@@ -17,9 +17,20 @@ client.on('message',(topic,payload)=>{
 const server=http.createServer((req,res)=>{
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
  if(req.method==='GET'&&req.url==='/api/fleet'){res.writeHead(200,{'Content-Type':'application/json'});return res.end(JSON.stringify({bikes:Object.values(state.bikes),settings:state.settings,messages:state.messages,lastMessage:state.lastMessage,connected:client.connected,simulated:true}));}
+ if(req.method==='GET'&&req.url==='/api/settings'){
+  res.writeHead(200,{'Content-Type':'application/json'});
+  return res.end(JSON.stringify(state.settings));
+ }
  if(req.method==='POST'&&req.url==='/api/settings'){
-  if(req.headers.origin && !/^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(req.headers.origin)){res.writeHead(403);return res.end('Forbidden')}
+  if(req.headers['content-type']!=='application/json'){
+   res.writeHead(415);return res.end('Expected JSON');
+  }
+  if(req.headers.origin && req.headers.origin !== process.env.EBIKE_DASHBOARD_ORIGIN && !/^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(req.headers.origin)){res.writeHead(403);return res.end('Forbidden')}
   let body='';req.on('data',chunk=>{body+=chunk;if(body.length>2048)req.destroy()});req.on('end',()=>{try{const d=JSON.parse(body);if(typeof d.apn!=='string'||d.apn.length>100||!/^[-.a-zA-Z0-9]*$/.test(d.apn)||typeof d.provider!=='string'||d.provider.length>80)throw Error('Invalid settings');state.settings={apn:d.apn,provider:d.provider};save();res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify(state.settings))}catch{res.writeHead(400);res.end('Invalid settings')}});return;
+ }
+ if(req.method==='GET'&&(req.url==='/settings'||req.url==='/settings/')){
+  res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});
+  return fs.createReadStream(path.join(__dirname,'settings.html')).pipe(res);
  }
  if(req.method==='GET'&&(req.url==='/'||req.url==='/index.html')){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return fs.createReadStream(path.join(__dirname,'index.html')).pipe(res)}
  res.writeHead(404);res.end('Not found');

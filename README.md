@@ -19,3 +19,9 @@ These instructions are a scaffold. Confirm port availability, permissions, firew
 ## Integrated VPS test dashboard
 
 `fleet-server.js` connects to the separately running authenticated test broker and subscribes to `test/ebike/+/telemetry`. It validates synthetic payloads and saves the last simulated status and planning-only SIM settings to `EBIKE_STATE_PATH`. It requires `EBIKE_BROKER_CONFIG`, optional `EBIKE_MQTT_URL` and `DASHBOARD_PORT`; it binds HTTP to loopback. `deploy/simulate.js` publishes four explicitly simulated bikes. The JSON format is a test contract, not Alan's device protocol. No locking, real-device provisioning, historical data, or operational map is implemented. Access through SSH only.
+
+### Dashboard access
+
+Open the fleet overview and select **Settings**, or go directly to `/settings`. The settings page remains usable when the MQTT broker is disconnected. It records the SIM provider and APN for the selected plan.
+
+For browser access without an SSH tunnel, the VPS administrator can route an approved company hostname through the existing HTTPS edge to `127.0.0.1:3185` (or the equivalent host address if the edge runs in a container). Put staff authentication in front of every route, including `/api/*`. Set `EBIKE_DASHBOARD_ORIGIN` on the dashboard service to the exact HTTPS origin, such as `https://ebikes.example.com`, and restart the service with the updated environment. Verify that an unauthenticated external request is rejected and that a signed-in user can load and save Settings. MQTT routing and device onboarding are separate.

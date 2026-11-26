@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Settings | eBike Fleet</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6f5;color:#142820;font:16px system-ui,sans-serif}header{background:#102a22;color:white;padding:18px max(20px,calc((100vw - 760px)/2));display:flex;gap:24px;align-items:center;flex-wrap:wrap}header a{color:#d9fa8b}main{max-width:800px;margin:auto;padding:32px 20px}h1{margin:0 0 8px}h2{margin:0 0 12px;font-size:20px}p{line-height:1.5}.card{background:white;border:1px solid #dce5de;border-radius:14px;margin-top:22px;padding:22px}label{display:block;font-weight:650;margin:16px 0}input{display:block;width:100%;max-width:420px;margin-top:6px;border:1px solid #78897f;border-radius:7px;padding:10px;font:inherit}button{background:#193f30;color:white;border:0;border-radius:8px;padding:10px 16px;font:inherit;cursor:pointer}button:disabled{opacity:.6;cursor:default}.hint{color:#496154}#status{margin-left:10px}
+</style>
+</head>
+<body>
+<header><strong>eBike Fleet</strong><a href="/">Fleet overview</a></header>
+<main>
+<h1>Settings</h1>
+<section class="card">
+<h2>SIM and mobile network</h2>
+<p class="hint">Save the provider and APN for the pilot. Applying them to a bike requires supplier integration.</p>
+<form id="settings">
+<fieldset id="fields" disabled style="border:0;padding:0;margin:0">
+<label>SIM provider <input name="provider" maxlength="80" placeholder="Pending selection"></label>
+<label>APN <input name="apn" maxlength="100" pattern="[A-Za-z0-9.\-]*" placeholder="Pending selection"></label>
+<button type="submit">Save settings</button><span id="status" role="status"></span>
+</fieldset>
+</form>
+<p id="load-status" role="status">Loading saved settings…</p>
+</section>
+<section class="card">
+<h2>Bike integration</h2>
+<p>Awaiting the supplier’s device protocol and a test bike. The VPS broker currently accepts test traffic over the private connection.</p>
+</section>
+</main>
+<script>
+const form = document.getElementById('settings');
+const fields = document.getElementById('fields');
+const loadStatus = document.getElementById('load-status');
+const status = document.getElementById('status');
+async function load() {
+  try {
+    const response = await fetch('/api/settings');
+    if (!response.ok) throw new Error();
+    const saved = await response.json();
+    form.elements.provider.value = saved.provider;
+    form.elements.apn.value = saved.apn;
+    fields.disabled = false;
+    loadStatus.hidden = true;
+  } catch {
+    loadStatus.textContent = 'Could not load settings. Refresh to try again.';
+  }
+}
+form.addEventListener('submit', async event => {
+  event.preventDefault();
+  const values = Object.fromEntries(new FormData(form));
+  fields.disabled = true;
+  status.textContent = 'Saving…';
+  try {
+    const response = await fetch('/api/settings', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(values)
+    });
+    if (!response.ok) throw new Error();
+    const saved = await response.json();
+    form.elements.provider.value = saved.provider;
+    form.elements.apn.value = saved.apn;
+    status.textContent = 'Saved';
+  } catch {
+    status.textContent = 'Could not save. Your changes are still here.';
+  } finally {
+    fields.disabled = false;
+  }
+});
+load();
+</script>
+</body>
+</html>
