@@ -25,3 +25,5 @@
 - Testing: Docker Compose configuration validated and dashboard container smoke-tested locally; standalone MQTT roundtrip previously passed. Mosquitto authentication and complete deployment remain unverified.
 - Commit/push: Initial scaffold prepared for push; consult repository history for exact commit. VPS selection remains outstanding.
 - Merge: No merge performed. Deployment and live production verification: none. All supplier, SIM, device integration, security and acceptance gates remain open.
+
+- Push evidence: Initial scaffold commit `3a6e3c7` was pushed to `blendproperty/ebike` `main` on 2026-11-26. This follow-up records the push; exact current head is available in Git history. No VPS deployment or production verification has occurred.
