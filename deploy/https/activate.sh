@@ -20,4 +20,4 @@ curl --retry 4 --retry-all-errors --fail --silent --show-error \
     --unix-socket "$EBIKE_DASHBOARD_SOCKET" http://localhost/settings >/dev/null
 
 sudo env EBIKE_UID="$(id -u)" EBIKE_GID="$(id -g)" EBIKE_EDGE_DIR="$edge_dir" \
-    docker compose -p ebike-https -f "$HOME/ebike-test/repo/deploy/https/compose.yaml" up -d
+    docker compose -p ebike-https -f "$HOME/ebike-test/repo/deploy/https/compose.yaml" up -d --build

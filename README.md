@@ -31,3 +31,9 @@ For browser access without an SSH tunnel, the VPS administrator can route an app
 The hostname `ebike.srv938083.hstgr.cloud` resolves to the VPS. The deployment uses the existing Traefik HTTPS entrypoint and certificate resolver. A dedicated Nginx container requires a staff login on every page and API request and reaches the existing dashboard over a Unix socket. The database file and MQTT broker remain with the existing service.
 
 From the VPS deployment account, run `bash ~/ebike-test/repo/deploy/https/activate.sh` in a terminal with sudo access. OpenSSL prompts to create the initial `fleet` login password. The activation script stores only its hash in a private directory outside Git. After certificate issuance, check the external HTTPS Settings URL without credentials for HTTP 401, then sign in and verify save and reload. Keep test credentials separate from supplier credentials.
+
+### Next.js dashboard deploy
+
+The public dashboard and Settings pages are built with Next.js and exported into the HTTPS Docker image. The same Traefik router handles TLS, and the same staff login protects the pages, assets and API. Nginx forwards /api/ to the existing VPS service over its Unix socket. That service owns persisted Settings and the MQTT subscription.
+
+Run `npm ci` and `npm run build` to build the dashboard. The VPS activation script rebuilds the web image from the checkout. For a staged rollout, set EBIKE_WEB_TAG to the release commit, build the edge service first and verify the image, then use Compose up with --no-build. The legacy HTML remains available on the loopback backend for rollback.

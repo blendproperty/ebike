@@ -83,3 +83,11 @@
 - Commit and push: HTTPS configuration was already on GitHub main and the VPS. This record follows in a documentation commit. Merge: none.
 - Deployment and configuration: The unprivileged activation prepared the password hash and socket. Its sudo step had no terminal, so the authorized Hostinger root console started only the e-bike edge container using the checked-in Compose definition. Public hostname is ebike.srv938083.hstgr.cloud.
 - Live verification: Public dashboard authentication and Settings persistence verified without an SSH tunnel. Dashboard bike data remains simulated. SIM/APN selection and provisioning, real hardware integration, supplier ingress and acceptance remain pending.
+
+## 2026-11-26 — Next.js dashboard migration
+
+- Implementation: Ported the overview and Settings pages to Next.js App Router. The static export is built inside the e-bike web image. The deployed Traefik host, authentication, broker and persisted Settings backend remain in place.
+- Testing: Next.js production build generated both routes. Deployment and public acceptance evidence follows.
+- Commit and push: Recorded in Git history. Merge: none.
+- Deployment and configuration: Existing e-bike Traefik route is the target. The app backend remains available on the VPS Unix socket. No APN value or actual bike integration configured.
+- Live production verification: Pending public check of the new Next.js build and Settings.

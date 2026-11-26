@@ -5,14 +5,18 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test.js"
+    "test": "node test.js",
+    "build": "next build",
+    "dev": "next dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "aedes": "^1.2.0",
-    "mqtt": "^5.16.1"
+    "mqtt": "^5.16.1",
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   }
 }
