@@ -102,3 +102,9 @@
 - Deployment/configuration and live verification: Pending. SIM/APN and actual bike integration remain open.
 
 - Deployment and live browser verification: Releases dfd7a7d and c144a83 were pushed to main and deployed by replacing the e-bike web container on the existing VPS. The latter emitted a fresh stylesheet URL after the MIME correction. The signed-in Edge browser showed the restored dashboard styling at the public HTTPS address. In the live Settings form, saved a temporary SIM provider, observed Saved, refreshed and confirmed it persisted, cleared it through the form, saved again and refreshed to confirm both fields were blank. VPS state confirmed blank; APN provisioning and actual bike integration remain pending. No merge.
+
+## 2026-11-26 — Vodacom pilot SIM request
+
+- Operations: Sent a request to Vodacom's IoT team for one pilot SIM, the exact APN and authentication settings for its plan, outbound connectivity confirmation, and activation instructions. Copied the project stakeholder and verified the message in Outlook Sent Items. Provider response and SIM supply are pending.
+- Implementation and testing: No application changes or device tests for this outreach. APN and bike integration remain pending.
+- Commit and push: Context record only. No merge, deployment, configuration change or live production verification for this outreach.
