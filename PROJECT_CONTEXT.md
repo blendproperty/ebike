@@ -75,3 +75,11 @@
 - Live production verification: Pending authenticated HTTPS access and Settings save/readback. APN provisioning and supplier hardware integration remain pending by request.
 
 - Follow-up evidence: Nginx configuration passed `nginx -t` under the intended non-root container UID; the activation script passed `bash -n` on the VPS. The dashboard is deployed with the planned HTTPS origin and a mode-0600 Unix socket. The VPS Settings page and API respond through that socket. The Docker edge container, trusted certificate and authenticated external access remain pending interactive sudo.
+
+## 2026-11-26 — Verified public HTTPS Settings
+
+- Implementation: Activated the existing Docker Nginx edge behind the VPS's shared Traefik HTTPS router. The dashboard application remains Node.js with the authenticated MQTT test broker and a private Unix socket.
+- Testing: From the workstation over public DNS and trusted HTTPS, unauthenticated requests to /settings and /api/settings returned 401. A temporary verification login loaded Settings, saved a test provider through the public API with the HTTPS origin, and read the saved value back in a fresh request. Restored the original blank provider and APN and removed the temporary login. The owner's fleet password was not used for verification.
+- Commit and push: HTTPS configuration was already on GitHub main and the VPS. This record follows in a documentation commit. Merge: none.
+- Deployment and configuration: The unprivileged activation prepared the password hash and socket. Its sudo step had no terminal, so the authorized Hostinger root console started only the e-bike edge container using the checked-in Compose definition. Public hostname is ebike.srv938083.hstgr.cloud.
+- Live verification: Public dashboard authentication and Settings persistence verified without an SSH tunnel. Dashboard bike data remains simulated. SIM/APN selection and provisioning, real hardware integration, supplier ingress and acceptance remain pending.
