@@ -1,0 +1,5 @@
+user fitcoo-pilot
+topic write bike
+
+user fleet-pilot-observer
+topic read bike

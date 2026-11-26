@@ -43,3 +43,11 @@ Run `npm ci` and `npm run build` to build the dashboard. The VPS activation scri
 The VPS test broker accepts simulated Fitcoo reports on the supplier's `bike` topic using a dedicated publish-only account. In the private broker configuration, set `fitcooFixture` to an object with its own `username` and randomly generated `password` of at least 24 characters. Keep the file outside Git and readable only by the deployment account. Restart the broker and fleet service using the existing PM2 home. Run `deploy/test-fitcoo.js` with the existing broker configuration and local MQTT URL. It publishes the registered synthetic fixture and verifies dashboard readback.
 
 The adapter accepts heartbeat (27), GPS (19) and vehicle parameter (16) reports for the fixture. The dashboard displays it as simulated. GPS reports without an explicit direction are retained as raw reports and shown as unconfirmed. The broker remains on loopback. Confirm the shipping firmware, MQTT transport security, per-device provisioning, GPS encoding and Vodacom APN before testing a physical scooter. Device commands and firmware changes are outside this stage.
+
+### Supplier MQTT pilot
+
+The isolated Mosquitto pilot uses MQTT 3.1.1 over TLS on `mqtt-ebike.srv938083.hstgr.cloud:443`. The device must use the hostname and send it as TLS SNI. Use `fitcoo-pilot` to publish to `bike`. A separate observer can read `bike` for bench verification. The existing dashboard and its simulator use their own broker.
+
+On the VPS deployment account, run `bash ~/ebike-test/repo/deploy/mqtt-pilot/activate.sh` in an interactive terminal with sudo access. The script sets up the pilot container and stores its random credentials under `~/ebike-test/private/mqtt-pilot` outside Git. Share only the supplier credential through an approved private channel.
+
+From outside the VPS, confirm that TLS validates for the pilot hostname and that a message on `bike` reaches the observer. Check that the publisher cannot receive messages, the observer cannot publish, and an unrelated publish is dropped. Confirm the HTTPS dashboard still returns its usual authentication prompt. After the pilot, the administrator can remove only the pilot container and route with `sudo docker compose -p ebike-mqtt-pilot down` from `deploy/mqtt-pilot` with the same UID, GID and private-directory variables used for activation.

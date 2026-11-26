@@ -1,0 +1,25 @@
+services:
+  broker:
+    image: eclipse-mosquitto:2.0.22
+    user: "${MQTT_PILOT_UID:?Set MQTT_PILOT_UID}:${MQTT_PILOT_GID:?Set MQTT_PILOT_GID}"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./acl:/mosquitto/config/acl:ro
+      - ${MQTT_PILOT_DIR:?Set MQTT_PILOT_DIR}/passwd:/mosquitto/secrets/passwd:ro
+    networks: [edge]
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=root_default
+      - traefik.tcp.routers.ebike-mqtt-pilot.rule=HostSNI(`mqtt-ebike.srv938083.hstgr.cloud`)
+      - traefik.tcp.routers.ebike-mqtt-pilot.entrypoints=websecure
+      - traefik.tcp.routers.ebike-mqtt-pilot.tls.certresolver=mytlschallenge
+      - traefik.tcp.services.ebike-mqtt-pilot.loadbalancer.server.port=1883
+
+networks:
+  edge:
+    external: true
+    name: root_default

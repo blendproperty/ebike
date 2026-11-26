@@ -118,3 +118,11 @@
 - Live production verification: No real scooter, SIM/APN, supplier firmware or acceptance verification. Vodacom response, TLS compatibility, physical test, UAT and approval remain pending.
 
 - VPS deployment and live synthetic verification: Application commit ff786e3 was pushed to GitHub main and fast-forwarded onto the VPS. Added a separate generated simulator credential to the private broker configuration and restarted the existing PM2 broker and fleet backend. The broker regression and Fitcoo test passed on the VPS, including persisted battery and GPS, invalid/unregistered reports ignored, simulator subscribe denied and Settings preserved. The signed-in HTTPS dashboard displayed FITCOO-SIM-01 with 76% battery and synthetic coordinates. MQTT and the backend remain loopback-only. No merge, external supplier test, physical hardware verification, device commands, or SIM/APN changes. All supplier, cellular, external MQTT security and acceptance gates remain open.
+
+## 2026-11-26 — Supplier MQTT endpoint prepared
+
+- Implementation: Added an isolated Mosquitto pilot with a publish-only supplier account for `bike`, a separate read-only observer, and a hostname-specific Traefik TLS route on the existing port 443. The project uses the pilot hostname `mqtt-ebike.srv938083.hstgr.cloud`. Pilot reports can be observed on the dedicated broker. Dashboard ingestion of physical devices remains open.
+- Testing: DNS resolved to the existing VPS. Docker Compose configuration and Bash syntax passed locally. Mosquitto 2.0.22 accepted an authenticated MQTT 3.1.1 publish on `bike`, delivered it to the observer, and rejected anonymous and invalid credentials. Supplier subscriptions received no messages, and disallowed supplier and observer publishes were dropped.
+- Commit and push: Deployment files and this evidence are recorded together in Git history. Merge: none.
+- Deployment and configuration: Administrator activation, credential generation, and certificate issuance pending. The approved SSH deployment account requires interactive sudo for Docker.
+- Live production verification: Pending external TLS and authorized publication verification, Fitcoo firmware TLS/SNI confirmation, supplier bench test, Vodacom SIM/APN validation, physical scooter telemetry, staff UAT and approval.
