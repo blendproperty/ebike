@@ -100,3 +100,5 @@
 - Testing: Rebuilt the image locally and validated Nginx configuration under the deployment UID. Public rollout and browser verification follow.
 - Commit/push: Recorded in Git history. Merge: none.
 - Deployment/configuration and live verification: Pending. SIM/APN and actual bike integration remain open.
+
+- Deployment and live browser verification: Releases dfd7a7d and c144a83 were pushed to main and deployed by replacing the e-bike web container on the existing VPS. The latter emitted a fresh stylesheet URL after the MIME correction. The signed-in Edge browser showed the restored dashboard styling at the public HTTPS address. In the live Settings form, saved a temporary SIM provider, observed Saved, refreshed and confirmed it persisted, cleared it through the form, saved again and refreshed to confirm both fields were blank. VPS state confirmed blank; APN provisioning and actual bike integration remain pending. No merge.
