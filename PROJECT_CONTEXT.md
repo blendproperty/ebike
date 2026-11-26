@@ -73,3 +73,5 @@
 - Commit and push: Recorded in Git history. Merge: none.
 - Deployment and configuration: Hostinger hostname resolves to the VPS. The SSH account cannot access the Docker socket and sudo requires an interactive password. Edge activation and certificate issuance are outstanding.
 - Live production verification: Pending authenticated HTTPS access and Settings save/readback. APN provisioning and supplier hardware integration remain pending by request.
+
+- Follow-up evidence: Nginx configuration passed `nginx -t` under the intended non-root container UID; the activation script passed `bash -n` on the VPS. The dashboard is deployed with the planned HTTPS origin and a mode-0600 Unix socket. The VPS Settings page and API respond through that socket. The Docker edge container, trusted certificate and authenticated external access remain pending interactive sudo.
