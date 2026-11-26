@@ -93,3 +93,10 @@
 - Live production verification: Pending public check of the new Next.js build and Settings.
 
 - Migration verification: Built release `6633f75` locally and on the VPS. Nginx configuration validated under the deployed container UID before Compose replaced only the e-bike web container with `ebike-fleet-web:6633f75`. The same Traefik hostname and trusted certificate served the Next.js overview, Settings and a client script over authenticated HTTPS. The unauthenticated Settings API returned 401. A temporary login saved a test provider through the public API, read it back in a fresh request, and restored the original settings. The temporary login was removed. Settings saving was tested through the API, not by clicking the form in a browser. Application commit pushed to main and deployed. No merge. SIM selection and APN provisioning, supplier protocol, real-device verification and staff acceptance remain open.
+
+## 2026-11-26 — Dashboard stylesheet delivery
+
+- Implementation: Loaded the Nginx MIME types table so the Next.js export serves stylesheets as text/css. The previous migration verified a JavaScript response but missed the stylesheet media type.
+- Testing: Rebuilt the image locally and validated Nginx configuration under the deployment UID. Public rollout and browser verification follow.
+- Commit/push: Recorded in Git history. Merge: none.
+- Deployment/configuration and live verification: Pending. SIM/APN and actual bike integration remain open.
