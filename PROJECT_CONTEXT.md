@@ -63,3 +63,5 @@
 - Commit/push: Recorded in Git history. Merge: none.
 - Deployment/configuration: Existing private VPS service is the promotion target. Public HTTPS still requires the approved hostname, staff authentication and authorized edge configuration.
 - Live production verification: Pending. No real bikes, SIM/APN provisioning, secure supplier ingress, staff UAT or approval.
+
+- VPS evidence for `194ae0b`: deployed to the existing dashboard service and verified the overview Settings link, page response, API save/readback and rejection of an unapproved origin through the SSH tunnel. Temporary values were restored. GitHub main and VPS checkout received the application commit. No merge. The VPS SSH login lacks noninteractive sudo for the shared HTTPS edge. Browser access from outside the tunnel and real-device acceptance remain open.
