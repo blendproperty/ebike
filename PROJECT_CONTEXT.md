@@ -27,3 +27,9 @@
 - Merge: No merge performed. Deployment and live production verification: none. All supplier, SIM, device integration, security and acceptance gates remain open.
 
 - Push evidence: Initial scaffold commit `3a6e3c7` was pushed to `blendproperty/ebike` `main` on 2026-11-26. This follow-up records the push; exact current head is available in Git history. No VPS deployment or production verification has occurred.
+
+## 2026-11-26 — Authenticated Node broker preparation
+
+- Implementation: Added a separate MQTT broker bound to loopback with mandatory credentials and a restricted `test/ebike/` namespace. Dashboard remains simulated and separate. External listener, TLS, real-device integration, persistence and commands remain unimplemented.
+- Testing: Local broker accepted a synthetic publish/subscribe roundtrip, rejected incorrect credentials and denied an unrelated topic subscription. VPS deployment is in progress; no live device verification.
+- Commit and push: See Git history for the prepared deployment. Merge: none. Deployment: pending. Supplier protocol, SIM/APN, security review, uptime and hardware tests remain outstanding.

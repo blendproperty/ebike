@@ -28,7 +28,7 @@ const server=http.createServer((req,res)=>{
  if(req.url==='/' || req.url==='/index.html'){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return fs.createReadStream(path.join(__dirname,'index.html')).pipe(res);}
  res.writeHead(404);res.end('Not found');
 });
-server.listen(3000,process.env.DASHBOARD_HOST || '127.0.0.1',()=>console.log('Dashboard: http://127.0.0.1:3000'));
+server.listen(Number(process.env.DASHBOARD_PORT || 3000),process.env.DASHBOARD_HOST || '127.0.0.1',()=>console.log('Dashboard listening on loopback')); 
 function shutdown(){client.end(true);server.close();broker.close();aedes.close(()=>process.exit());setTimeout(()=>process.exit(),2000).unref();}
 process.on('SIGINT',shutdown);process.on('SIGTERM',shutdown);
 
