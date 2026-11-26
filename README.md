@@ -25,3 +25,9 @@ These instructions are a scaffold. Confirm port availability, permissions, firew
 Open the fleet overview and select **Settings**, or go directly to `/settings`. The settings page remains usable when the MQTT broker is disconnected. It records the SIM provider and APN for the selected plan.
 
 For browser access without an SSH tunnel, the VPS administrator can route an approved company hostname through the existing HTTPS edge to `127.0.0.1:3185` (or the equivalent host address if the edge runs in a container). Put staff authentication in front of every route, including `/api/*`. Set `EBIKE_DASHBOARD_ORIGIN` on the dashboard service to the exact HTTPS origin, such as `https://ebikes.example.com`, and restart the service with the updated environment. Verify that an unauthenticated external request is rejected and that a signed-in user can load and save Settings. MQTT routing and device onboarding are separate.
+
+### HTTPS on the existing VPS
+
+The hostname `ebike.srv938083.hstgr.cloud` resolves to the VPS. The deployment uses the existing Traefik HTTPS entrypoint and certificate resolver. A dedicated Nginx container requires a staff login on every page and API request and reaches the existing dashboard over a Unix socket. The database file and MQTT broker remain with the existing service.
+
+From the VPS deployment account, run `bash ~/ebike-test/repo/deploy/https/activate.sh` in a terminal with sudo access. OpenSSL prompts to create the initial `fleet` login password. The activation script stores only its hash in a private directory outside Git. After certificate issuance, check the external HTTPS Settings URL without credentials for HTTP 401, then sign in and verify save and reload. Keep test credentials separate from supplier credentials.

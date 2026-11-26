@@ -1,0 +1,24 @@
+services:
+  edge:
+    image: nginx:stable-alpine
+    user: "${EBIKE_UID:?Set EBIKE_UID}:${EBIKE_GID:?Set EBIKE_GID}"
+    restart: unless-stopped
+    entrypoint: ["nginx", "-g", "daemon off;"]
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ${EBIKE_EDGE_DIR:?Set EBIKE_EDGE_DIR}:/run/ebike:ro
+    networks: [edge]
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=root_default
+      - traefik.http.routers.ebike-fleet.rule=Host(`ebike.srv938083.hstgr.cloud`)
+      - traefik.http.routers.ebike-fleet.entrypoints=websecure
+      - traefik.http.routers.ebike-fleet.tls.certresolver=mytlschallenge
+      - traefik.http.services.ebike-fleet.loadbalancer.server.port=8080
+networks:
+  edge:
+    external: true
+    name: root_default

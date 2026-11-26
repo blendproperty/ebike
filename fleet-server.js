@@ -35,5 +35,14 @@ const server=http.createServer((req,res)=>{
  if(req.method==='GET'&&(req.url==='/'||req.url==='/index.html')){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return fs.createReadStream(path.join(__dirname,'index.html')).pipe(res)}
  res.writeHead(404);res.end('Not found');
 });
+const socketPath = process.env.EBIKE_DASHBOARD_SOCKET;
+if (socketPath) {
+ if (fs.existsSync(socketPath)) {
+  if (!fs.lstatSync(socketPath).isSocket()) throw Error('Dashboard socket path is already in use');
+  fs.unlinkSync(socketPath);
+ }
+ const edgeServer = http.createServer(server.listeners('request')[0]);
+ edgeServer.listen(socketPath, () => fs.chmodSync(socketPath, 0o600));
+}
 server.listen(Number(process.env.DASHBOARD_PORT||3185),'127.0.0.1',()=>console.log('Fleet dashboard listening on loopback'));
 function stop(){client.end(true);server.close(()=>process.exit());setTimeout(()=>process.exit(),2000).unref()};process.on('SIGTERM',stop);process.on('SIGINT',stop);

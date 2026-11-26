@@ -65,3 +65,11 @@
 - Live production verification: Pending. No real bikes, SIM/APN provisioning, secure supplier ingress, staff UAT or approval.
 
 - VPS evidence for `194ae0b`: deployed to the existing dashboard service and verified the overview Settings link, page response, API save/readback and rejection of an unapproved origin through the SSH tunnel. Temporary values were restored. GitHub main and VPS checkout received the application commit. No merge. The VPS SSH login lacks noninteractive sudo for the shared HTTPS edge. Browser access from outside the tunnel and real-device acceptance remain open.
+
+## 2026-11-26 — External HTTPS preparation
+
+- Implementation: Prepared a dedicated authenticated HTTPS route at the existing VPS edge for the fleet dashboard and Settings API. Its Nginx service uses a private Unix socket to reach the current dashboard and leaves the broker independent.
+- Testing: Node syntax and Compose validation passed. External HTTPS baseline presented an untrusted certificate, so the hostname is not usable yet.
+- Commit and push: Recorded in Git history. Merge: none.
+- Deployment and configuration: Hostinger hostname resolves to the VPS. The SSH account cannot access the Docker socket and sudo requires an interactive password. Edge activation and certificate issuance are outstanding.
+- Live production verification: Pending authenticated HTTPS access and Settings save/readback. APN provisioning and supplier hardware integration remain pending by request.
