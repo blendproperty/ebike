@@ -1,0 +1,3 @@
+# A restricted account for a synthetic connectivity test only.
+user ebike-test
+topic readwrite test/ebike/#
