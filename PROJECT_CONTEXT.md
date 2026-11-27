@@ -161,3 +161,8 @@
 - Operations: Emailed Mark Corbishley and copied Nazlie Hendricks at 08:33 SAST. Requested conditional approval for one month of Hostinger KVM 1 at US$11.49 including tax for a separate Fitcoo pilot broker. Outlook Sent Items contains the message. Alan's unit TLS capability and need for port 8883 remain pending, as does Mark's approval.
 - Implementation and testing: No infrastructure change or new hardware test. The existing 443 route and staged, inactive 8883 relay remain as previously recorded.
 - Commit and push: Documentation only on GitHub `main`. Merge, deployment, purchase and new live production verification: none.
+
+## 2026-11-27 — Pilot credential and external heartbeat demonstrated
+
+- Testing and live verification: At 09:00:48 SAST the workstation used the supplier credential to connect to `mqtt-ebike.srv938083.hstgr.cloud:443` over trusted TLS 1.2 and MQTT 3.1.1. A separate read-only observer received the exact synthetic non-retained QoS 1 heartbeat on `bike` for `DEMO-BRETT-a2afb2` with battery 76. This verified the endpoint and credentials from the workstation. Alan's unit `MV0006`, its firmware and factory-SIM connectivity, physical Vodacom/APN verification, and real dashboard telemetry remain open.
+- Implementation, merge, deployment and configuration: No runtime change. Commit and push: documentation only on GitHub `main`.
