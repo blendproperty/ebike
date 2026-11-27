@@ -166,3 +166,9 @@
 
 - Testing and live verification: At 09:00:48 SAST the workstation used the supplier credential to connect to `mqtt-ebike.srv938083.hstgr.cloud:443` over trusted TLS 1.2 and MQTT 3.1.1. A separate read-only observer received the exact synthetic non-retained QoS 1 heartbeat on `bike` for `DEMO-BRETT-a2afb2` with battery 76. This verified the endpoint and credentials from the workstation. Alan's unit `MV0006`, its firmware and factory-SIM connectivity, physical Vodacom/APN verification, and real dashboard telemetry remain open.
 - Implementation, merge, deployment and configuration: No runtime change. Commit and push: documentation only on GitHub `main`.
+
+## 2026-11-27 — Mark approved the Fitcoo pilot
+
+- Operations and approval: Brett supplied a WhatsApp screenshot showing Mark's 08:52 SAST approval in response to the request for a one-month Hostinger VPS at US$11.49 including tax if Alan confirms that the unit supports an encrypted connection and needs port 8883. This closes the approval gate for that conditional one-month spend. Alan reported that he configured one IoT unit and is waiting to see if it connects. Firmware TLS support, need for 8883, and receipt of a real factory heartbeat remain open.
+- Implementation, testing, merge, deployment and configuration: No change, purchase or new live verification. Port 443 remains the previously verified endpoint and the staged 8883 route remains inactive.
+- Commit and push: Documentation only on GitHub `main`.
