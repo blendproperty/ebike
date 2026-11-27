@@ -73,3 +73,9 @@ Start the deployment from the `standalone` directory with `MQTT_PILOT_DIR=/etc/e
 On the dedicated broker VPS only, copy `deploy/mqtt-pilot/mosquitto.conf` and the `legacy` directory together. As root run `bash /opt/ebike-mqtt-pilot/legacy/activate.sh`. It creates separate one-time credentials, starts an IPv4 plain-MQTT listener, adds the runtime-only firewall rule, and schedules teardown after two hours. Verify approval for each additional test window and distribute only the `fitcoo-1883` credential. Retain use of encrypted 8883 for ongoing service.
 
 To end a test early, run `bash /opt/ebike-mqtt-pilot/legacy/activate.sh stop`. This removes only the temporary rule, the temporary broker container, and its credentials. Verify the scheduled expiry with `systemctl list-timers ebike-mqtt-1883-expiry.timer` and confirm the port is inaccessible after shutdown.
+
+## Rider PWA preview
+
+Run `npm run dev` and open `/rider/` to try the rider dashboard, sample battery level and timed demo ride. Use the install instructions on the page to add it to a phone's home screen from a secure origin. The production-style static export is built with `npm run build` and the preview is packaged in the existing authenticated HTTPS image.
+
+The preview is self-contained and uses simulated values. Live rider access requires individual accounts, authorization for the bike assigned to each rider, and verified telemetry from that bike. Live ride controls require separate bench and handset testing against the shipping hardware.

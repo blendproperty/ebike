@@ -209,3 +209,12 @@
 - Testing and live verification: The dedicated plain-MQTT bench broker authenticated client `MV0006` on port 1883 at 11:30:19 SAST with the temporary publish-only account. A read-only observer received a real Fitcoo heartbeat (report 27) on `bike` at 11:31:32 SAST from `MV0006`, reporting battery 100 percent. This verifies the supplier factory unit-to-broker path during the temporary test.
 - Implementation and deployment: No application or server configuration change for this check. The 1883 teardown timer remained scheduled for approximately 13:25 SAST. Commit and push: this evidence only on GitHub `main`. Merge: none.
 - Open: Sustained connectivity, encrypted factory and production transport, South African Vodacom SIM/APN validation, dashboard ingestion, and staff UAT remain unverified.
+
+## 2026-11-27 — eBike Rider PWA preview
+
+- Implementation: Added a separate mobile rider preview at `/rider/` with a sample bike, simulated battery, demo ride timer and completion summary. Added a scoped standalone manifest, install icons and in-app instructions. The preview makes no telemetry requests and has no device command path.
+- Testing: Next.js static export, existing local HTTP/MQTT test, Docker HTTPS image build and Git whitespace check passed. Chromium at a 360 px viewport verified the demo ride, timer, battery, install instructions, manifest scope, zero installability errors and zero API requests. An isolated Nginx container required authentication and served the rider page, manifest with its correct media type, icon and existing Settings page.
+- Commit and push: The preview and this context record are included together on the `codex/ebike-rider-pwa` review branch. Git history identifies the implementation commit.
+- Merge: Pending. The preview is scoped for review on its own branch.
+- Deployment and configuration: Local export and isolated container only. The existing HTTPS image can package the preview behind staff authentication. A rider release requires individual accounts and per-bike authorization. Broker and VPS settings were untouched.
+- Live production verification: Pending. Physical iPhone and Android installation, pilot rider acceptance, secure device transport, Vodacom/APN, live telemetry ingestion and ride controls remain open. The temporary factory heartbeat recorded above verifies the bench connection only.

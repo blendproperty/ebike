@@ -1,0 +1,69 @@
+.rider-shell {
+  max-width: 520px;
+  min-height: 100svh;
+  padding: 24px clamp(16px, 5vw, 32px) 40px;
+}
+
+.rider-header, .rider-brand, .rider-bike-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rider-header, .rider-bike-top { justify-content: space-between; }
+.rider-header { margin-bottom: 32px; }
+.rider-brand { font-size: 17px; font-weight: 750; }
+.rider-brand img { border-radius: 12px; }
+.rider-preview, .rider-bike-status {
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.rider-preview { background: #e2ebdf; color: #2f4d39; }
+.rider-shell h1 { margin: 0; font-size: clamp(34px, 8vw, 44px); line-height: 1.12; }
+.rider-intro { margin: 8px 0 22px; color: #475b51; line-height: 1.5; }
+.rider-bike, .rider-ride, .rider-install { border-radius: 20px; padding: 20px; }
+.rider-bike { background: #102a22; color: #fff; }
+.rider-bike h2 { font-size: 25px; }
+.rider-label { margin: 0 0 4px; color: #ccdcd2; }
+.rider-bike-status { background: #c6f36d; color: #1a3123; text-align: center; }
+.rider-battery {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.rider-battery strong { font-size: 26px; line-height: 1; }
+.rider-battery meter {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 12px;
+  appearance: none;
+  background: #3c5548;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.rider-battery meter::-webkit-meter-bar { background: #3c5548; border: 0; }
+.rider-battery meter::-webkit-meter-optimum-value { background: #c6f36d; border-radius: 999px; }
+.rider-battery meter::-moz-meter-bar { background: #c6f36d; border-radius: 999px; }
+.rider-ride, .rider-install { margin-top: 16px; background: #fff; border: 1px solid #dbe6de; }
+.rider-ride p, .rider-install p { margin: 10px 0 14px; color: #475b51; line-height: 1.5; }
+.rider-ride .rider-time { color: #142820; font-size: 38px; font-weight: 750; font-variant-numeric: tabular-nums; }
+.rider-ride button {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 12px;
+  background: #193f30;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.rider-install { padding-block: 8px; }
+.rider-install summary { padding-block: 12px; font-weight: 650; cursor: pointer; }
+.rider-install summary:focus-visible { outline: 3px solid #34734d; outline-offset: 3px; }

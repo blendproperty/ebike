@@ -4,6 +4,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY next.config.js ./
 COPY app ./app
+COPY public ./public
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
