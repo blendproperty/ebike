@@ -134,3 +134,10 @@
 - Commit and push: Deployment configuration was pushed to GitHub `main` in `24fd94d` and fast-forwarded to the VPS. This verification entry is a documentation follow-up. Merge: no merge commit.
 - Deployment and configuration: Administrator ran the activation script. The pilot container started and Traefik serves native MQTT over TLS on `mqtt-ebike.srv938083.hstgr.cloud:443` using hostname SNI. VPS credential files have mode 0600. The supplier-only handoff was saved in a restricted local file outside Git. No credentials sent to the supplier.
 - Live production verification: Public pilot transport and authorization verified with a synthetic MQTT client. Shipping firmware TLS/SNI compatibility and supplier bench test, Vodacom SIM and APN verification, physical scooter and dashboard telemetry, VPS reboot recovery, staff UAT and business approval remain open.
+
+## 2026-11-27 — Dashboard availability checked after MQTT activation
+
+- Implementation: No application change. The dashboard uses `https://ebike.srv938083.hstgr.cloud/`; the separate MQTT hostname serves MQTT over TLS and returned no HTTP page.
+- Testing and live production verification: From outside the VPS, unauthenticated requests to the dashboard and fleet API returned the expected HTTP 401 with the eBike Fleet authentication challenge. A temporary login returned HTTP 200 for the overview, Settings and fleet API. CSS and JavaScript returned HTTP 200 with their expected media types. The fleet API reported a connected dashboard broker and five simulated entries. The temporary login was removed and subsequently rejected. The reported browser symptom was not reproduced with authenticated HTTP requests. Real-unit telemetry and staff UAT remain pending.
+- Commit and push: Documentation follow-up on GitHub `main`. Merge: no merge commit.
+- Deployment and configuration: No software redeployment or persistent access change.
