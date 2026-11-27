@@ -141,3 +141,9 @@
 - Testing and live production verification: From outside the VPS, unauthenticated requests to the dashboard and fleet API returned the expected HTTP 401 with the eBike Fleet authentication challenge. A temporary login returned HTTP 200 for the overview, Settings and fleet API. CSS and JavaScript returned HTTP 200 with their expected media types. The fleet API reported a connected dashboard broker and five simulated entries. The temporary login was removed and subsequently rejected. The reported browser symptom was not reproduced with authenticated HTTP requests. Real-unit telemetry and staff UAT remain pending.
 - Commit and push: Documentation follow-up on GitHub `main`. Merge: no merge commit.
 - Deployment and configuration: No software redeployment or persistent access change.
+
+## 2026-11-27 — Supplier connection report
+
+- Implementation and configuration: No change. The pilot requires native MQTT over TLS with SNI at `mqtt-ebike.srv938083.hstgr.cloud:443`.
+- Testing and live production verification: After the supplier reported a connection failure from the Fitcoo desktop tool, an external MQTT 3.1.1 login over TLS 1.2 succeeded with the supplier account. TLS 1.3 also negotiated in a standalone check. Plain MQTT on port 443 failed as expected. External attempts on ports 1883 and 8883 timed out. The desktop tool screenshot shows no visible TLS option, and the stored hostname cannot be confirmed from the visible field. Fitcoo desktop-tool and shipping-firmware TLS/SNI compatibility, factory heartbeat, and physical Vodacom/APN testing remain open.
+- Commit and push: Documentation only, on GitHub `main`. Merge and software deployment: none.
