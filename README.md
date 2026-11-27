@@ -60,9 +60,9 @@ Before the test, confirm the actual test network's public IPv4 and coordinate th
 
 #### Dedicated Hostinger VPS on port 8883
 
-On the new VPS, copy `deploy/mqtt-pilot/acl` and the `standalone` directory together. The Compose service binds native MQTT with TLS directly to IPv4 port 8883. It presents a single certificate, so a client that supports TLS 1.2 but omits SNI can still verify the configured hostname. Use the host firewall and apply any Hostinger firewall policy only to the dedicated VPS.
+On the new VPS, copy `deploy/mqtt-pilot/acl` and the `standalone` directory together. The Compose service binds native MQTT over TLS to TCP port 8883 on IPv4 and IPv6. It presents a single certificate, so a client that supports TLS 1.2 but omits SNI can still verify the configured hostname. Use the host firewall and apply any Hostinger firewall policy only to the dedicated VPS.
 
-Create `/etc/ebike-mqtt-pilot/secrets` with root ownership, group 1883 and mode 0750. Generate fresh, separate credentials for `fitcoo-pilot` and `fleet-pilot-observer`. Use Mosquitto's password-file utility to write the hashes to `passwd` in that directory, owned by root and group 1883 with mode 0640. Keep the plaintext credentials separately under root-only access.
+Create `/etc/ebike-mqtt-pilot/secrets` with root ownership, group 1883 and mode 0750. Generate fresh, separate credentials for `fitcoo-pilot` and `fleet-pilot-observer`. Use Mosquitto's password-file utility to write the hashes to `passwd` in that directory, owned by the container user and group 1883 with mode 0600. Keep the plaintext credentials separately under root-only access.
 
 Issue an ACME certificate for the verified broker hostname. For Certbot standalone validation, permit inbound TCP 80 on the dedicated VPS for issuance and renewal. Run `install-certificate.sh /etc/letsencrypt/live/<hostname>` as root and configure the same script as the renewal deploy hook for that certificate. It copies the certificate and key into the broker's private directory and reloads the running container after renewal.
 
