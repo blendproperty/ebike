@@ -1,0 +1,14 @@
+services:
+  broker:
+    image: eclipse-mosquitto:2.0.23@sha256:6a332cc7a8dbe011cbc076180cbb76b37c6f0f55809682ea08e7980ef0112ad9
+    user: "1883:1883"
+    restart: unless-stopped
+    network_mode: host
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ../acl:/mosquitto/config/acl:ro
+      - ${MQTT_PILOT_DIR:?Set MQTT_PILOT_DIR}:/mosquitto/secrets:ro

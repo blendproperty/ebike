@@ -172,3 +172,11 @@
 - Operations and approval: Brett supplied a WhatsApp screenshot showing Mark's 08:52 SAST approval in response to the request for a one-month Hostinger VPS at US$11.49 including tax if Alan confirms that the unit supports an encrypted connection and needs port 8883. This closes the approval gate for that conditional one-month spend. Alan reported that he configured one IoT unit and is waiting to see if it connects. Firmware TLS support, need for 8883, and receipt of a real factory heartbeat remain open.
 - Implementation, testing, merge, deployment and configuration: No change, purchase or new live verification. Port 443 remains the previously verified endpoint and the staged 8883 route remains inactive.
 - Commit and push: Documentation only on GitHub `main`.
+
+## 2026-11-27 — Dedicated 8883 broker prepared while Hostinger provisions the VPS
+
+- Implementation: Added a standalone Mosquitto 2.0.23 Compose service for native MQTT TLS on 8883, using the existing pilot topic restrictions, and a certificate renewal deploy hook. The dedicated broker presents one certificate without requiring SNI.
+- Testing: Local Compose validation and Bash syntax passed. A disposable Mosquitto container using a local test certificate completed an MQTT 3.1.1 roundtrip over TLS 1.2 with and without SNI. Anonymous access, invalid passwords, plaintext MQTT and unauthorized topic operations were rejected.
+- Commit and push: Standalone deployment files and validation on GitHub `main`. Merge: none.
+- Deployment and configuration: Hostinger onboarding for the new VPS reached root access setup with Düsseldorf and Docker (Ubuntu 24.04) selected. User must set the root password and enroll the public SSH key. Dedicated host access, DNS, ACME issuance, firewall, deployment and outside verification remain pending. STOR24 was not changed.
+- Live production verification: None on 8883. The existing 443 endpoint remains as verified earlier. Alan's hardware TLS and telemetry, the Vodacom SIM/APN check, dashboard ingestion of real telemetry and staff UAT remain open.
