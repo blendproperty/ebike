@@ -67,3 +67,9 @@ Create `/etc/ebike-mqtt-pilot/secrets` with root ownership, group 1883 and mode 
 Issue an ACME certificate for the verified broker hostname. For Certbot standalone validation, permit inbound TCP 80 on the dedicated VPS for issuance and renewal. Run `install-certificate.sh /etc/letsencrypt/live/<hostname>` as root and configure the same script as the renewal deploy hook for that certificate. It copies the certificate and key into the broker's private directory and reloads the running container after renewal.
 
 Start the deployment from the `standalone` directory with `MQTT_PILOT_DIR=/etc/ebike-mqtt-pilot/secrets docker compose -p ebike-mqtt-standalone up -d` as the server administrator. Verify from outside the VPS on 8883 with the supplier and observer credentials before supplying the new hostname and fresh supplier credential. Confirm that TCP 1883 stays unavailable. The shared-host relay and the existing dashboard use separate configuration.
+
+#### Temporary plaintext factory test on port 1883
+
+On the dedicated broker VPS only, copy `deploy/mqtt-pilot/mosquitto.conf` and the `legacy` directory together. As root run `bash /opt/ebike-mqtt-pilot/legacy/activate.sh`. It creates separate one-time credentials, starts an IPv4 plain-MQTT listener, adds the runtime-only firewall rule, and schedules teardown after two hours. Verify approval for each additional test window and distribute only the `fitcoo-1883` credential. Retain use of encrypted 8883 for ongoing service.
+
+To end a test early, run `bash /opt/ebike-mqtt-pilot/legacy/activate.sh stop`. This removes only the temporary rule, the temporary broker container, and its credentials. Verify the scheduled expiry with `systemctl list-timers ebike-mqtt-1883-expiry.timer` and confirm the port is inaccessible after shutdown.

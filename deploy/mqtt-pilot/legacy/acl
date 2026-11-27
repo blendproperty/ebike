@@ -1,0 +1,5 @@
+user fitcoo-1883
+topic write bike
+
+user fitcoo-1883-observer
+topic read bike

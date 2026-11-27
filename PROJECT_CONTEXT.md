@@ -195,3 +195,11 @@
 - Previous endpoint comparison: The retained Hostinger Docker Manager logs for the previous 443 broker showed only the diagnostic observer login in the 10:55 to 11:04 SAST review window. Live subscribers observed no reports from MV0006 on either broker during their checks. The dedicated broker remained running with zero restarts.
 - Implementation, merge, deployment and configuration: No runtime changes. Commit and push: documentation only on GitHub `main`.
 - Live production verification: Supplier firmware TLS configuration and first successful factory heartbeat remain open. Physical Vodacom/APN, real telemetry in the dashboard and staff UAT remain pending.
+
+## 2026-11-27 — Temporary plaintext factory bench-test port 1883
+
+- Implementation: Added a separate Mosquitto container, publish-only `fitcoo-1883` identity scoped to `bike`, read-only observer, and two-hour automatic teardown. It shares no TLS listener or credentials with 8883.
+- Testing: Local Compose and Bash validation passed. External MQTT 3.1.1 on port 1883 accepted the temporary credentials and delivered synthetic heartbeat `DEMO-1883-ee63e1` to the independent observer. Anonymous and invalid credentials, supplier read access and unauthorized topic publishes were rejected. The 8883 TLS certificate continued to validate. Teardown was scheduled and had not yet fired at handoff.
+- Deployment and configuration: Enabled an IPv4-only runtime firewall rule and temporary container on dedicated VPS `srv2205848.hstgr.cloud` only. Systemd scheduled teardown for approximately 13:25 SAST on 27 November, removing the temporary rule, listener and credentials. The rule and container do not persist across reboot. Connection details stored in a restricted local file outside Git. No change on the shared VPS.
+- Commit and push: Implementation and evidence on GitHub `main`. Merge: none.
+- Live production verification: Public temporary factory endpoint verified using a software client. Fitcoo hardware heartbeat, actual firmware TLS capability, final encrypted production path, Vodacom/APN, dashboard ingestion and staff UAT remain open.
