@@ -126,3 +126,11 @@
 - Commit and push: Deployment files and this evidence are recorded together in Git history. Merge: none.
 - Deployment and configuration: Administrator activation, credential generation, and certificate issuance pending. The approved SSH deployment account requires interactive sudo for Docker.
 - Live production verification: Pending external TLS and authorized publication verification, Fitcoo firmware TLS/SNI confirmation, supplier bench test, Vodacom SIM/APN validation, physical scooter telemetry, staff UAT and approval.
+
+## 2026-11-27 — Supplier MQTT pilot activated and externally verified
+
+- Implementation: Activated the dedicated Mosquitto pilot from release `24fd94d`. The supplier account publishes only to `bike`. A separate observer receives the pilot reports. Dashboard ingestion of physical-unit telemetry remains open.
+- Testing: From outside the VPS, the hostname validated against a trusted Let's Encrypt certificate. TLS 1.3 negotiated in a standalone handshake and a TLS 1.2 MQTT 3.1.1 roundtrip delivered one synthetic heartbeat to the observer. Anonymous and wrong-password connections were rejected. Supplier read access and unauthorized publishes were blocked. The existing dashboard Settings URL continued to return HTTP 401 to an unauthenticated request.
+- Commit and push: Deployment configuration was pushed to GitHub `main` in `24fd94d` and fast-forwarded to the VPS. This verification entry is a documentation follow-up. Merge: no merge commit.
+- Deployment and configuration: Administrator ran the activation script. The pilot container started and Traefik serves native MQTT over TLS on `mqtt-ebike.srv938083.hstgr.cloud:443` using hostname SNI. VPS credential files have mode 0600. The supplier-only handoff was saved in a restricted local file outside Git. No credentials sent to the supplier.
+- Live production verification: Public pilot transport and authorization verified with a synthetic MQTT client. Shipping firmware TLS/SNI compatibility and supplier bench test, Vodacom SIM and APN verification, physical scooter and dashboard telemetry, VPS reboot recovery, staff UAT and business approval remain open.
