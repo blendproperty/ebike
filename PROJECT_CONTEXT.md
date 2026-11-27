@@ -203,3 +203,9 @@
 - Deployment and configuration: Enabled an IPv4-only runtime firewall rule and temporary container on dedicated VPS `srv2205848.hstgr.cloud` only. Systemd scheduled teardown for approximately 13:25 SAST on 27 November, removing the temporary rule, listener and credentials. The rule and container do not persist across reboot. Connection details stored in a restricted local file outside Git. No change on the shared VPS.
 - Commit and push: Implementation and evidence on GitHub `main`. Merge: none.
 - Live production verification: Public temporary factory endpoint verified using a software client. Fitcoo hardware heartbeat, actual firmware TLS capability, final encrypted production path, Vodacom/APN, dashboard ingestion and staff UAT remain open.
+
+## 2026-11-27 — First Fitcoo factory heartbeat received
+
+- Testing and live verification: The dedicated plain-MQTT bench broker authenticated client `MV0006` on port 1883 at 11:30:19 SAST with the temporary publish-only account. A read-only observer received a real Fitcoo heartbeat (report 27) on `bike` at 11:31:32 SAST from `MV0006`, reporting battery 100 percent. This verifies the supplier factory unit-to-broker path during the temporary test.
+- Implementation and deployment: No application or server configuration change for this check. The 1883 teardown timer remained scheduled for approximately 13:25 SAST. Commit and push: this evidence only on GitHub `main`. Merge: none.
+- Open: Sustained connectivity, encrypted factory and production transport, South African Vodacom SIM/APN validation, dashboard ingestion, and staff UAT remain unverified.
