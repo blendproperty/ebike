@@ -1,0 +1,13 @@
+services:
+  mqtt-port:
+    image: haproxy:3.2-alpine@sha256:7816a9801a6846b912bc37e48529808e2fa87c3c47992441940f68e393ebcfeb
+    network_mode: host
+    user: "65534:65534"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    read_only: true
+    environment:
+      MQTT_PILOT_SOURCE: "${MQTT_PILOT_SOURCE:?Enter Alan's public IPv4 address}"
+    volumes:
+      - ./haproxy-8883.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro

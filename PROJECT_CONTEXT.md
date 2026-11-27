@@ -147,3 +147,11 @@
 - Implementation and configuration: No change. The pilot requires native MQTT over TLS with SNI at `mqtt-ebike.srv938083.hstgr.cloud:443`.
 - Testing and live production verification: After the supplier reported a connection failure from the Fitcoo desktop tool, an external MQTT 3.1.1 login over TLS 1.2 succeeded with the supplier account. TLS 1.3 also negotiated in a standalone check. Plain MQTT on port 443 failed as expected. External attempts on ports 1883 and 8883 timed out. The desktop tool screenshot shows no visible TLS option, and the stored hostname cannot be confirmed from the visible field. Fitcoo desktop-tool and shipping-firmware TLS/SNI compatibility, factory heartbeat, and physical Vodacom/APN testing remain open.
 - Commit and push: Documentation only, on GitHub `main`. Merge and software deployment: none.
+
+## 2026-11-27 — Restricted port 8883 factory-test route prepared
+
+- Implementation: Prepared an optional host-network HAProxy relay on TCP 8883 for one approved source IPv4 address. It only forwards TLS with the exact eBikes MQTT SNI to the existing edge on 443, preserving the existing broker and certificate.
+- Testing: Local Compose and HAProxy configuration validation passed. An isolated Docker test reached the live pilot TLS certificate through the relay from the allowed source, and rejected another hostname, missing SNI, plaintext and a second source.
+- Commit and push: Relay configuration and evidence on GitHub `main`. Merge: none.
+- Deployment and configuration: VPS checkout staged only. No firewall or monitoring change. STOR24's host-security inventory includes `/etc/ufw`, so a UFW change would be flagged while it differs from the baseline. Alan's public test-source IPv4 and interactive VPS administrator access are pending.
+- Live production verification: No public 8883 listener was activated. External access from Alan, factory firmware compatibility and heartbeat, physical Vodacom/APN verification, and real dashboard telemetry remain open.
