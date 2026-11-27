@@ -155,3 +155,9 @@
 - Commit and push: Relay configuration and evidence on GitHub `main`. Merge: none.
 - Deployment and configuration: VPS checkout staged only. No firewall or monitoring change. STOR24's host-security inventory includes `/etc/ufw`, so a UFW change would be flagged while it differs from the baseline. Alan's public test-source IPv4 and interactive VPS administrator access are pending.
 - Live production verification: No public 8883 listener was activated. External access from Alan, factory firmware compatibility and heartbeat, physical Vodacom/APN verification, and real dashboard telemetry remain open.
+
+## 2026-11-27 — Separate VPS approval requested
+
+- Operations: Emailed Mark Corbishley and copied Nazlie Hendricks at 08:33 SAST. Requested conditional approval for one month of Hostinger KVM 1 at US$11.49 including tax for a separate Fitcoo pilot broker. Outlook Sent Items contains the message. Alan's unit TLS capability and need for port 8883 remain pending, as does Mark's approval.
+- Implementation and testing: No infrastructure change or new hardware test. The existing 443 route and staged, inactive 8883 relay remain as previously recorded.
+- Commit and push: Documentation only on GitHub `main`. Merge, deployment, purchase and new live production verification: none.
